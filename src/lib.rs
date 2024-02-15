@@ -29,7 +29,7 @@
 //! [downloads]:  https://img.shields.io/crates/d/aeruginous-tbr
 //! [gpl3]:  https://github.com/kevinmatthes/aeruginous-tbr/blob/main/LICENSE
 //! [lcns]:  https://img.shields.io/github/license/kevinmatthes/aeruginous-tbr
-//! [lst]:  https://img.shields.io/github/last-commit/kevinmatthes/aeruginous-tbr <!-- #[aeruginous::mercy::0003] -->
+//! [lst]: https://img.shields.io/github/last-commit/kevinmatthes/aeruginous-tbr
 //! [msrv]:  https://img.shields.io/badge/MSRV-1.76.0-brightgreen
 //! [release]:  https://github.com/kevinmatthes/aeruginous-tbr/releases/latest
 //! [renovate]:  https://img.shields.io/badge/renovate-enabled-brightgreen.svg
