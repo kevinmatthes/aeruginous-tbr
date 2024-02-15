@@ -7,7 +7,6 @@
       ".github/CODEOWNERS",
       ".github/aeruginous-tbr.cff",
       ".github/release.yml",
-      ".github/workflow/rustfmt.toml",
       ".github/workflows/cff.yml",
       ".github/workflows/ci.yml",
       ".github/workflows/mirror.yml",
