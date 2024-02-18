@@ -1,0 +1,8 @@
+(
+  references: {},
+  changes: {
+    "Added": [
+      "CI:  mirror src/lib.rs to README; fixes #6",
+    ],
+  },
+)
