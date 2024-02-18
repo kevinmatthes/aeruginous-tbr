@@ -17,7 +17,7 @@
 |                                                                              |
 \******************************************************************************/
 
-//! <!------------------------------------------------------------------------->
+//! <!------------------- #[aeruginous::mercy::0003::start] ------------------->
 //!
 //! [ci]:  https://github.com/kevinmatthes/aeruginous-tbr/workflows/ci/badge.svg
 //! [crate]:  https://crates.io/crates/aeruginous-tbr
@@ -29,14 +29,14 @@
 //! [downloads]:  https://img.shields.io/crates/d/aeruginous-tbr
 //! [gpl3]:  https://github.com/kevinmatthes/aeruginous-tbr/blob/main/LICENSE
 //! [lcns]:  https://img.shields.io/github/license/kevinmatthes/aeruginous-tbr
-//! [lst]: https://img.shields.io/github/last-commit/kevinmatthes/aeruginous-tbr
+//! [lst]:  https://img.shields.io/github/last-commit/kevinmatthes/aeruginous-tbr
 //! [msrv]:  https://img.shields.io/badge/MSRV-1.76.0-brightgreen
 //! [release]:  https://github.com/kevinmatthes/aeruginous-tbr/releases/latest
 //! [renovate]:  https://img.shields.io/badge/renovate-enabled-brightgreen.svg
 //! [repository]:  https://github.com/kevinmatthes/aeruginous-tbr
 //! [tag]:  https://img.shields.io/github/v/tag/kevinmatthes/aeruginous-tbr
 //!
-//! <!------------------------------------------------------------------------->
+//! <!-------------------- #[aeruginous::mercy::0003::end] -------------------->
 //!
 //! <p align = 'center'>
 //! <a href = 'https://github.com/kevinmatthes/aeruginous-rs'>

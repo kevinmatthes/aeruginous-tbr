@@ -1,0 +1,8 @@
+(
+  references: {},
+  changes: {
+    "Added": [
+      "README:  apply Range of Mercy for URL definition section; fixes #7",
+    ],
+  },
+)
