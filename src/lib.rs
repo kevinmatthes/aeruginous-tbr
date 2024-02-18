@@ -70,7 +70,7 @@
 //! 1. [License](#license)
 //! 1. [Dependencies](#dependencies)
 //!
-//! The current code coverage is **<!-- cov -->0.00%<!-- cov -->**.
+//! The current code coverage is **<!-- cov -->89.13%<!-- cov -->**.
 //!
 //! ## License
 //!
