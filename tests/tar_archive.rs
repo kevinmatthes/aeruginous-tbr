@@ -55,7 +55,9 @@ fn life_cycle() {
 
 #[test]
 fn remove_failure() {
-    assert!(TarArchive::new("tests/assets/does_not_exist.tar").remove().is_err());
+    assert!(TarArchive::new("tests/assets/does_not_exist.tar")
+        .remove()
+        .is_err());
 }
 
 /******************************************************************************/
