@@ -91,9 +91,12 @@ jobs:
           persist-credentials: false
           ref: ${{ github.head_ref }}
 
+      - uses: taiki-e/install-action@v2.27.2
+        with:
+          tool: cargo-mutants
+
       - run: |
           rustup update
-          cargo install cargo-mutants
           cargo mutants
 
 ################################################################################
