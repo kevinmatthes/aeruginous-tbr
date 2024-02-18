@@ -53,4 +53,11 @@ fn life_cycle() {
     remove_file("tests/.renovaterc.json5").unwrap();
 }
 
+#[test]
+fn remove_failure() {
+    assert!(TarArchive::new("tests/assets/does_not_exist.tar")
+        .remove()
+        .is_err());
+}
+
 /******************************************************************************/
