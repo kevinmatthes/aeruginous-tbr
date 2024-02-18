@@ -1,0 +1,8 @@
+(
+  references: {},
+  changes: {
+    "Added": [
+      "tests cases for TarArchive; fixes #10",
+    ],
+  },
+)
