@@ -1,0 +1,8 @@
+(
+  references: {},
+  changes: {
+    "Added": [
+      "CI:  install cargo-mutants via GHA; fixes #16",
+    ],
+  },
+)
