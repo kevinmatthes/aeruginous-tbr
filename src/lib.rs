@@ -95,9 +95,21 @@
 //!
 //! ## Dependencies
 //!
+//! - [`brotli`]
+//!   [![](https://img.shields.io/crates/l/brotli)
+//!   ](https://github.com/dropbox/rust-brotli)
+//!
+//! - [`glob`]
+//!   [![](https://img.shields.io/crates/l/glob)
+//!   ](https://github.com/rust-lang/glob)
+//!
 //! - [`sysexits`]
 //!   [![](https://img.shields.io/crates/l/sysexits)
 //!   ](https://github.com/sorairolake/sysexits-rs)
+//!
+//! - [`tar`]
+//!   [![](https://img.shields.io/crates/l/tar)
+//!   ](https://github.com/alexcrichton/tar-rs)
 //!
 //! <!------------------------------------------------------------------------->
 
