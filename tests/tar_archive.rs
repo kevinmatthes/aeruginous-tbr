@@ -28,7 +28,7 @@ fn exists_failure() {
 
 #[test]
 fn life_cycle() {
-    let tar = TarArchive::new("license.tar");
+    let tar = TarArchive::new("tar_archive!life_cycle.tar");
 
     assert!(!tar.exists());
     assert!(tar.add_files(&["LICENSE"]).is_ok());
