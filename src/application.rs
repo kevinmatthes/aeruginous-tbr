@@ -89,7 +89,7 @@ impl Logic {
     fn resolve_files(&mut self) -> Result<()> {
         for file in &self.cli.files {
             for path in glob::glob(
-                file.as_path().to_str().map_or(Err(ExitCode::DataErr), Ok)?,
+                file.as_path().to_str().ok_or(ExitCode::DataErr)?,
             )
             .map_or(Err(ExitCode::DataErr), Ok)?
             {
