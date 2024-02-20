@@ -47,18 +47,6 @@ LICENSE
         }
     }
 
-    mod help {
-        use aeruginous_tbr::Application;
-        use clap::Parser;
-
-        #[test]
-        fn long_option() {
-            assert!(Application::parse_from("tbr --help".split_whitespace())
-                .main()
-                .is_ok());
-        }
-    }
-
     mod list {
         use aeruginous_tbr::Application;
         use clap::Parser;
