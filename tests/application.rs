@@ -25,24 +25,21 @@ mod application {
 
         #[test]
         fn tar_archive() {
-            assert!(Application::parse_from(
-                "\
-tbr
-create
-tests/application!application!create!tar_archive.tar
-LICENSE
-"
+            let d = tempfile::tempdir().unwrap();
+            let d = d.path().to_str().unwrap();
+            
+            assert!(Application::parse_from(("tbr create ".to_string() + d + "/tar_archive.tar Cargo.*")
                 .split_whitespace()
             )
             .main()
             .is_ok());
 
             let tar = TarArchive::new(
-                "tests/application!application!create!tar_archive.tar",
+                d.to_string() + "/tar_archive.tar",
             );
 
             assert!(tar.exists());
-            assert_eq!(tar.list().unwrap(), &[PathBuf::from("LICENSE")]);
+            assert_eq!(tar.list().unwrap(), &[PathBuf::from("Cargo.lock"), PathBuf::from("Cargo.toml")]);
             assert!(tar.remove().is_ok());
         }
     }
