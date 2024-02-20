@@ -26,7 +26,7 @@ mod application {
         #[test]
         fn file_does_not_exist() {
             assert!(Application::parse_from(
-                "tbr list tests/assets/does_not_exist.tar".split_whitespace()
+                "tbr list does_not_exist.tar".split_whitespace()
             )
             .main()
             .is_err());
@@ -35,7 +35,7 @@ mod application {
         #[test]
         fn no_extension() {
             assert!(Application::parse_from(
-                "tbr list tests/assets/does_not_exist".split_whitespace()
+                "tbr list does_not_exist".split_whitespace()
             )
             .main()
             .is_err());
@@ -47,19 +47,19 @@ mod application {
             let d = d.path().to_str().unwrap();
 
             assert!(Application::parse_from(
-                ("tbr create ".to_string() + d + "/tar_archive.tar LICENSE")
+                ("tbr create ".to_string() + d + "/archive.tar LICENSE")
                     .split_whitespace()
             )
             .main()
             .is_ok());
             assert!(Application::parse_from(
-                ("tbr list ".to_string() + d + "/tar_archive.tar")
+                ("tbr list ".to_string() + d + "/archive.tar")
                     .split_whitespace()
             )
             .main()
             .is_ok());
 
-            let tar = TarArchive::new(d.to_string() + "/tar_archive.tar");
+            let tar = TarArchive::new(d.to_string() + "/archive.tar");
 
             assert!(tar.exists());
             assert_eq!(tar.list().unwrap(), &[PathBuf::from("LICENSE")]);
@@ -69,7 +69,7 @@ mod application {
         #[test]
         fn unsupported_archive_type() {
             assert!(Application::parse_from(
-                "tbr list tests/assets/does_not_exist.zip".split_whitespace()
+                "tbr list does_not_exist.zip".split_whitespace()
             )
             .main()
             .is_err());
@@ -87,13 +87,13 @@ mod application {
             let d = d.path().to_str().unwrap();
 
             assert!(Application::parse_from(
-                ("tbr create ".to_string() + d + "/tar_archive.tar Cargo.*")
+                ("tbr create ".to_string() + d + "/archive.tar Cargo.*")
                     .split_whitespace()
             )
             .main()
             .is_ok());
 
-            let tar = TarArchive::new(d.to_string() + "/tar_archive.tar");
+            let tar = TarArchive::new(d.to_string() + "/archive.tar");
 
             assert!(tar.exists());
             assert_eq!(
@@ -104,6 +104,33 @@ mod application {
         }
     }
 
+    mod archive_extraction {
+        use aeruginous_io::PathBufLikeReader;
+        use aeruginous_tbr::Application;
+        use clap::Parser;
+
+        #[test]
+        fn tar_archive() {
+            let d = tempfile::tempdir().unwrap();
+            let d = d.path().to_str().unwrap();
+            
+            assert!(Application::parse_from(
+                ("tbr create ".to_string() + d + "/archive.tar LICENSE").split_whitespace()
+            )
+            .main()
+            .is_ok());
+            assert!(Application::parse_from(
+                ("tbr unpack ".to_string() + d + "/archive.tar -d " + d).split_whitespace()
+            )
+            .main()
+            .is_ok());
+            assert_eq!(
+                "LICENSE".read_silently().unwrap(),
+                (d.to_string() + "LICENSE").read_silently().unwrap()
+            );
+        }
+    }
+
     mod archive_removal {
         use aeruginous_tbr::Application;
         use clap::Parser;
@@ -111,7 +138,7 @@ mod application {
         #[test]
         fn file_does_not_exist() {
             assert!(Application::parse_from(
-                "tbr remove tests/assets/does_not_exist.tar".split_whitespace()
+                "tbr remove does_not_exist.tar".split_whitespace()
             )
             .main()
             .is_err());
