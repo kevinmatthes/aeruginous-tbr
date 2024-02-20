@@ -57,9 +57,7 @@ fn life_cycle() {
 
 #[test]
 fn remove_failure() {
-    assert!(TarArchive::new("does_not_exist.tar")
-        .remove()
-        .is_err());
+    assert!(TarArchive::new("does_not_exist.tar").remove().is_err());
 }
 
 #[test]
@@ -70,15 +68,26 @@ fn update() {
     let tar = TarArchive::new(d.to_string() + "/update.tar");
 
     assert!(!tar.exists());
-    assert!(tar.add_files(&["Cargo.lock", "Cargo.toml", "LICENSE"]).is_ok());
+    assert!(tar
+        .add_files(&["Cargo.lock", "Cargo.toml", "LICENSE"])
+        .is_ok());
     assert_eq!(
         tar.list().unwrap(),
-        [PathBuf::from("Cargo.lock"), PathBuf::from("Cargo.toml"), PathBuf::from("LICENSE")]
+        [
+            PathBuf::from("Cargo.lock"),
+            PathBuf::from("Cargo.toml"),
+            PathBuf::from("LICENSE")
+        ]
     );
     assert!(tar.add_files(&["LICENSE", "CITATION.cff"]).is_ok());
     assert_eq!(
         tar.list().unwrap(),
-        [PathBuf::from("LICENSE"), PathBuf::from("CITATION.cff"), PathBuf::from("Cargo.lock"), PathBuf::from("Cargo.toml")]
+        [
+            PathBuf::from("LICENSE"),
+            PathBuf::from("CITATION.cff"),
+            PathBuf::from("Cargo.lock"),
+            PathBuf::from("Cargo.toml")
+        ]
     );
     assert!(tar.remove().is_ok());
 }
