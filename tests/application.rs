@@ -52,6 +52,24 @@ LICENSE
             .main()
             .is_ok());
     }
+
+    #[test]
+    fn tbr_list_no_extension() {
+        assert!(Application::parse_from(
+            "tbr list tests/assets/does_not_exist".split_whitespace()
+        )
+        .main()
+        .is_err());
+    }
+
+    #[test]
+    fn tbr_list_unsupported_archive_type() {
+        assert!(Application::parse_from(
+            "tbr list tests/assets/does_not_exist.zip".split_whitespace()
+        )
+        .main()
+        .is_err());
+    }
 }
 
 mod application_mode {
