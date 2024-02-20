@@ -51,7 +51,7 @@ with TAR.BR files.
 1. [License](#license)
 1. [Dependencies](#dependencies)
 
-The current code coverage is **<!-- cov -->89.13%<!-- cov -->**.
+The current code coverage is **<!-- cov -->91.76%<!-- cov -->**.
 
 ## License
 
@@ -79,6 +79,10 @@ follows:
 - [`brotli`]
   [![](https://img.shields.io/crates/l/brotli)
   ](https://github.com/dropbox/rust-brotli)
+
+- [`clap`]
+  [![](https://img.shields.io/crates/l/clap)
+  ](https://github.com/clap-rs/clap)
 
 - [`glob`]
   [![](https://img.shields.io/crates/l/glob)
