@@ -46,7 +46,7 @@ jobs:
     steps:
       - uses: taiki-e/install-action@v2.27.2
         with:
-          tool: cargo-llvm-cov
+          tool: cargo-tarpaulin
 
       - uses: actions/setup-python@v5.0.0
         with:
@@ -63,7 +63,7 @@ jobs:
 
       - run: |
           rustup update
-          cargo llvm-cov --cobertura --output-path cobertura.xml
+          cargo tarpaulin --engine llvm -o xml
           {
             echo '```' ;
             pycobertura show cobertura.xml ;
