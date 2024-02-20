@@ -99,6 +99,10 @@
 //!   [![](https://img.shields.io/crates/l/brotli)
 //!   ](https://github.com/dropbox/rust-brotli)
 //!
+//! - [`clap`]
+//!   [![](https://img.shields.io/crates/l/clap)
+//!   ](https://github.com/clap-rs/clap)
+//!
 //! - [`glob`]
 //!   [![](https://img.shields.io/crates/l/glob)
 //!   ](https://github.com/rust-lang/glob)
@@ -140,8 +144,10 @@
     unused_variables
 )]
 
+mod application;
 mod tar_archive;
 
+pub use application::{Application, Mode as ApplicationMode};
 pub use tar_archive::TarArchive;
 
 /// This crate's name.
