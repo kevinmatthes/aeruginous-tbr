@@ -27,19 +27,21 @@ mod application {
         fn tar_archive() {
             let d = tempfile::tempdir().unwrap();
             let d = d.path().to_str().unwrap();
-            
-            assert!(Application::parse_from(("tbr create ".to_string() + d + "/tar_archive.tar Cargo.*")
-                .split_whitespace()
+
+            assert!(Application::parse_from(
+                ("tbr create ".to_string() + d + "/tar_archive.tar Cargo.*")
+                    .split_whitespace()
             )
             .main()
             .is_ok());
 
-            let tar = TarArchive::new(
-                d.to_string() + "/tar_archive.tar",
-            );
+            let tar = TarArchive::new(d.to_string() + "/tar_archive.tar");
 
             assert!(tar.exists());
-            assert_eq!(tar.list().unwrap(), &[PathBuf::from("Cargo.lock"), PathBuf::from("Cargo.toml")]);
+            assert_eq!(
+                tar.list().unwrap(),
+                &[PathBuf::from("Cargo.lock"), PathBuf::from("Cargo.toml")]
+            );
             assert!(tar.remove().is_ok());
         }
     }
