@@ -18,57 +18,82 @@
 \******************************************************************************/
 
 mod application {
-    use std::path::PathBuf;
+    mod create {
+        use aeruginous_tbr::{Application, TarArchive};
+        use clap::Parser;
+        use std::path::PathBuf;
 
-    use aeruginous_tbr::{Application, TarArchive};
-    use clap::Parser;
-
-    #[test]
-    fn tbr_create_tar_archive() {
-        assert!(Application::parse_from(
-            "\
+        #[test]
+        fn tar_archive() {
+            assert!(Application::parse_from(
+                "\
 tbr
 create
-tests/application!application!tbr_create_tar_archive.tar
+tests/application!application!create!tar_archive.tar
 LICENSE
 "
-            .split_whitespace()
-        )
-        .main()
-        .is_ok());
-
-        let tar = TarArchive::new(
-            "tests/application!application!tbr_create_tar_archive.tar",
-        );
-
-        assert!(tar.exists());
-        assert_eq!(tar.list().unwrap(), &[PathBuf::from("LICENSE")]);
-        assert!(tar.remove().is_ok());
-    }
-
-    #[test]
-    fn tbr_help() {
-        assert!(Application::parse_from("tbr --help".split_whitespace())
+                .split_whitespace()
+            )
             .main()
             .is_ok());
+
+            let tar = TarArchive::new(
+                "tests/application!application!create!tar_archive.tar",
+            );
+
+            assert!(tar.exists());
+            assert_eq!(tar.list().unwrap(), &[PathBuf::from("LICENSE")]);
+            assert!(tar.remove().is_ok());
+        }
     }
 
-    #[test]
-    fn tbr_list_no_extension() {
-        assert!(Application::parse_from(
-            "tbr list tests/assets/does_not_exist".split_whitespace()
-        )
-        .main()
-        .is_err());
+    mod help {
+        use aeruginous_tbr::Application;
+        use clap::Parser;
+
+        #[test]
+        fn long_option() {
+            assert!(Application::parse_from("tbr --help".split_whitespace())
+                .main()
+                .is_ok());
+        }
     }
 
-    #[test]
-    fn tbr_list_unsupported_archive_type() {
-        assert!(Application::parse_from(
-            "tbr list tests/assets/does_not_exist.zip".split_whitespace()
-        )
-        .main()
-        .is_err());
+    mod list {
+        use aeruginous_tbr::Application;
+        use clap::Parser;
+
+        #[test]
+        fn no_extension() {
+            assert!(Application::parse_from(
+                "tbr list tests/assets/does_not_exist".split_whitespace()
+            )
+            .main()
+            .is_err());
+        }
+
+        #[test]
+        fn unsupported_archive_type() {
+            assert!(Application::parse_from(
+                "tbr list tests/assets/does_not_exist.zip".split_whitespace()
+            )
+            .main()
+            .is_err());
+        }
+    }
+
+    mod remove {
+        use aeruginous_tbr::Application;
+        use clap::Parser;
+
+        #[test]
+        fn file_does_not_exist() {
+            assert!(Application::parse_from(
+                "tbr remove tests/assets/does_not_exist.tar".split_whitespace()
+            )
+            .main()
+            .is_err());
+        }
     }
 }
 
