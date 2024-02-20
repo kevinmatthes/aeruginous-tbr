@@ -75,35 +75,6 @@ mod application {
             .is_err());
         }
     }
-
-    mod archive_creation {
-        use aeruginous_tbr::{Application, TarArchive};
-        use clap::Parser;
-        use std::path::PathBuf;
-
-        #[test]
-        fn tar_archive() {
-            let d = tempfile::tempdir().unwrap();
-            let d = d.path().to_str().unwrap();
-
-            assert!(Application::parse_from(
-                ("tbr create ".to_string() + d + "/archive.tar Cargo.*")
-                    .split_whitespace()
-            )
-            .main()
-            .is_ok());
-
-            let tar = TarArchive::new(d.to_string() + "/archive.tar");
-
-            assert!(tar.exists());
-            assert_eq!(
-                tar.list().unwrap(),
-                &[PathBuf::from("Cargo.lock"), PathBuf::from("Cargo.toml")]
-            );
-            assert!(tar.remove().is_ok());
-        }
-    }
-
     mod archive_extraction {
         use aeruginous_io::PathBufLikeReader;
         use aeruginous_tbr::Application;
@@ -144,6 +115,34 @@ mod application {
             )
             .main()
             .is_err());
+        }
+    }
+
+    mod archive_update {
+        use aeruginous_tbr::{Application, TarArchive};
+        use clap::Parser;
+        use std::path::PathBuf;
+
+        #[test]
+        fn tar_archive_creation() {
+            let d = tempfile::tempdir().unwrap();
+            let d = d.path().to_str().unwrap();
+
+            assert!(Application::parse_from(
+                ("tbr create ".to_string() + d + "/archive.tar Cargo.*")
+                    .split_whitespace()
+            )
+            .main()
+            .is_ok());
+
+            let tar = TarArchive::new(d.to_string() + "/archive.tar");
+
+            assert!(tar.exists());
+            assert_eq!(
+                tar.list().unwrap(),
+                &[PathBuf::from("Cargo.lock"), PathBuf::from("Cargo.toml")]
+            );
+            assert!(tar.remove().is_ok());
         }
     }
 }
