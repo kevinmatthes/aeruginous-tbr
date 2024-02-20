@@ -62,7 +62,7 @@ mod application {
             let tar = TarArchive::new(d.to_string() + "/archive.tar");
 
             assert!(tar.exists());
-            assert_eq!(tar.list().unwrap(), &[PathBuf::from("LICENSE")]);
+            assert_eq!(tar.list().unwrap(), [PathBuf::from("LICENSE")]);
             assert!(tar.remove().is_ok());
         }
 
@@ -140,7 +140,7 @@ mod application {
             assert!(tar.exists());
             assert_eq!(
                 tar.list().unwrap(),
-                &[PathBuf::from("Cargo.lock"), PathBuf::from("Cargo.toml")]
+                [PathBuf::from("Cargo.lock"), PathBuf::from("Cargo.toml")]
             );
             assert!(tar.remove().is_ok());
         }
