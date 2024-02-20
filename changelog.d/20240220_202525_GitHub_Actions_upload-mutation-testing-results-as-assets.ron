@@ -1,0 +1,8 @@
+(
+  references: {},
+  changes: {
+    "Added": [
+      "CI:  upload mutants.out after mutation testing as GitHub asset",
+    ],
+  },
+)
