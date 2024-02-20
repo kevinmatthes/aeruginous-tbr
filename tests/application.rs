@@ -46,12 +46,12 @@ mod application {
             let d = d.path().to_str().unwrap();
 
             assert!(Application::parse_from(
-                ("tbr create ".to_string() + d + "/tar_archive.tar LICENSE")
+                ("tbr create ".to_string() + d + "/tar_archive.tar LICENSE").split_whitespace()
             )
             .main()
             .is_ok());
             assert!(Application::parse_from(
-                ("tbr list ".to_string() + d + "/tar_archive.tar")
+                ("tbr list ".to_string() + d + "/tar_archive.tar").split_whitespace()
             )
             .main()
             .is_ok());
