@@ -113,14 +113,16 @@ mod application {
         fn tar_archive() {
             let d = tempfile::tempdir().unwrap();
             let d = d.path().to_str().unwrap();
-            
+
             assert!(Application::parse_from(
-                ("tbr create ".to_string() + d + "/archive.tar LICENSE").split_whitespace()
+                ("tbr create ".to_string() + d + "/archive.tar LICENSE")
+                    .split_whitespace()
             )
             .main()
             .is_ok());
             assert!(Application::parse_from(
-                ("tbr unpack ".to_string() + d + "/archive.tar -d " + d).split_whitespace()
+                ("tbr unpack ".to_string() + d + "/archive.tar -d " + d)
+                    .split_whitespace()
             )
             .main()
             .is_ok());
