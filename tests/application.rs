@@ -126,7 +126,7 @@ mod application {
             .is_ok());
             assert_eq!(
                 "LICENSE".read_silently().unwrap(),
-                (d.to_string() + "LICENSE").read_silently().unwrap()
+                (d.to_string() + "/LICENSE").read_silently().unwrap()
             );
         }
     }
