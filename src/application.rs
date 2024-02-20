@@ -72,9 +72,10 @@ impl Logic {
                 );
                 Err(ExitCode::Usage)
             },
-            |e| match e.to_str() {
-                Some("tar") => self.tar_archive(),
-                _ => {
+            |e| {
+                if e.to_str() == Some("tar") {
+                    self.tar_archive()
+                } else {
                     eprintln!("This archive type is not supported.");
                     Err(ExitCode::Usage)
                 }
@@ -84,10 +85,9 @@ impl Logic {
 
     fn resolve_files(&mut self) -> Result<()> {
         for file in &self.cli.files {
-            for path in glob::glob(
-                file.as_path().to_str().map_or(Err(ExitCode::DataErr), Ok)?,
-            )
-            .map_or(Err(ExitCode::DataErr), Ok)?
+            for path in
+                glob::glob(file.as_path().to_str().ok_or(ExitCode::DataErr)?)
+                    .map_or(Err(ExitCode::DataErr), Ok)?
             {
                 self.paths.push(path.map_or(Err(ExitCode::DataErr), Ok)?);
             }
