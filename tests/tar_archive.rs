@@ -20,15 +20,16 @@
 use aeruginous_io::PathBufLikeReader;
 use aeruginous_tbr::TarArchive;
 use std::path::PathBuf;
+use tempfile::tempdir;
 
 #[test]
 fn exists_failure() {
-    assert!(!TarArchive::new("tests/assets/does_not_exist.tar").exists());
+    assert!(!TarArchive::new("does_not_exist.tar").exists());
 }
 
 #[test]
 fn life_cycle() {
-    let d = tempfile::tempdir().unwrap();
+    let d = tempdir().unwrap();
     let d = d.path().to_str().unwrap();
     let tar = TarArchive::new(d.to_string() + "/life_cycle.tar");
 
@@ -56,9 +57,30 @@ fn life_cycle() {
 
 #[test]
 fn remove_failure() {
-    assert!(TarArchive::new("tests/assets/does_not_exist.tar")
+    assert!(TarArchive::new("does_not_exist.tar")
         .remove()
         .is_err());
+}
+
+#[test]
+fn update() {
+    let d = tempdir().unwrap();
+    let d = d.path().to_str().unwrap();
+
+    let tar = TarArchive::new(d.to_string() + "/update.tar");
+
+    assert!(!tar.exists());
+    assert!(tar.add_files(&["Cargo.lock", "Cargo.toml", "LICENSE"]).is_ok());
+    assert_eq!(
+        tar.list().unwrap(),
+        [PathBuf::from("Cargo.lock"), PathBuf::from("Cargo.toml"), PathBuf::from("LICENSE")]
+    );
+    assert!(tar.add_files(&["LICENSE", "CITATION.cff"]).is_ok());
+    assert_eq!(
+        tar.list().unwrap(),
+        [PathBuf::from("LICENSE"), PathBuf::from("CITATION.cff"), PathBuf::from("Cargo.lock"), PathBuf::from("Cargo.toml")]
+    );
+    assert!(tar.remove().is_ok());
 }
 
 /******************************************************************************/
