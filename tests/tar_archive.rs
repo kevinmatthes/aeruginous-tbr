@@ -19,7 +19,7 @@
 
 use aeruginous_io::PathBufLikeReader;
 use aeruginous_tbr::TarArchive;
-use std::{fs::remove_file, path::PathBuf};
+use std::path::PathBuf;
 
 #[test]
 fn exists_failure() {
@@ -28,7 +28,9 @@ fn exists_failure() {
 
 #[test]
 fn life_cycle() {
-    let tar = TarArchive::new("tar_archive!life_cycle.tar");
+    let d = tempfile::tempdir().unwrap();
+    let d = d.path().to_str().unwrap();
+    let tar = TarArchive::new(d.to_string() + "/life_cycle.tar");
 
     assert!(!tar.exists());
     assert!(tar.add_files(&["LICENSE"]).is_ok());
@@ -38,19 +40,18 @@ fn life_cycle() {
         tar.list().unwrap(),
         [PathBuf::from(".renovaterc.json5"), PathBuf::from("LICENSE")]
     );
-    assert!(tar.extract("tests/").is_ok());
+    assert!(tar.extract(d).is_ok());
     assert_eq!(
         ".renovaterc.json5".read_silently().unwrap(),
-        "tests/.renovaterc.json5".read_silently().unwrap()
+        (d.to_string() + "/.renovaterc.json5")
+            .read_silently()
+            .unwrap()
     );
     assert_eq!(
         "LICENSE".read_silently().unwrap(),
-        "tests/LICENSE".read_silently().unwrap()
+        (d.to_string() + "/LICENSE").read_silently().unwrap()
     );
     assert!(tar.remove().is_ok());
-
-    remove_file("tests/LICENSE").unwrap();
-    remove_file("tests/.renovaterc.json5").unwrap();
 }
 
 #[test]
