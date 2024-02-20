@@ -18,7 +18,62 @@
 \******************************************************************************/
 
 mod application {
-    mod create {
+    mod archive_content_preview {
+        use aeruginous_tbr::{Application, TarArchive};
+        use clap::Parser;
+
+        #[test]
+        fn file_does_not_exist() {
+            assert!(Application::parse_from(
+                "tbr list tests/assets/does_not_exist.tar".split_whitespace()
+            )
+            .main()
+            .is_err());
+        }
+
+        #[test]
+        fn no_extension() {
+            assert!(Application::parse_from(
+                "tbr list tests/assets/does_not_exist".split_whitespace()
+            )
+            .main()
+            .is_err());
+        }
+
+        #[test]
+        fn tar_archive() {
+            let d = tempfile::tempdir().unwrap();
+            let d = d.path().to_str().unwrap();
+
+            assert!(Application::parse_from(
+                ("tbr create ".to_string() + d + "/tar_archive.tar LICENSE")
+            )
+            .main()
+            .is_ok());
+            assert!(Application::parse_from(
+                ("tbr list ".to_string() + d + "/tar_archive.tar")
+            )
+            .main()
+            .is_ok());
+
+            let tar = TarArchive::new(d.to_string() + "/tar_archive.tar");
+
+            assert!(tar.exists());
+            assert_eq!(tar.list().unwrap(), &[PathBuf::from("LICENSE")]);
+            assert!(tar.remove().is_ok());
+        }
+
+        #[test]
+        fn unsupported_archive_type() {
+            assert!(Application::parse_from(
+                "tbr list tests/assets/does_not_exist.zip".split_whitespace()
+            )
+            .main()
+            .is_err());
+        }
+    }
+
+    mod archive_creation {
         use aeruginous_tbr::{Application, TarArchive};
         use clap::Parser;
         use std::path::PathBuf;
@@ -46,30 +101,7 @@ mod application {
         }
     }
 
-    mod list {
-        use aeruginous_tbr::Application;
-        use clap::Parser;
-
-        #[test]
-        fn no_extension() {
-            assert!(Application::parse_from(
-                "tbr list tests/assets/does_not_exist".split_whitespace()
-            )
-            .main()
-            .is_err());
-        }
-
-        #[test]
-        fn unsupported_archive_type() {
-            assert!(Application::parse_from(
-                "tbr list tests/assets/does_not_exist.zip".split_whitespace()
-            )
-            .main()
-            .is_err());
-        }
-    }
-
-    mod remove {
+    mod archive_removal {
         use aeruginous_tbr::Application;
         use clap::Parser;
 
