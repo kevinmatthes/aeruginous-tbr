@@ -21,6 +21,7 @@ mod application {
     mod archive_content_preview {
         use aeruginous_tbr::{Application, TarArchive};
         use clap::Parser;
+        use std::path::PathBuf;
 
         #[test]
         fn file_does_not_exist() {
