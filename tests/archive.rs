@@ -70,7 +70,7 @@ mod tar {
         std::os::unix::fs::symlink("does_not_exist.txt", "no_such.txt")
             .unwrap();
 
-        assert!(tar.add_files(["LICENSE", "no_such.txt"]).is_ok());
+        assert!(tar.add_files(&["LICENSE", "no_such.txt"]).is_ok());
         assert_eq!(tar.list().unwrap(), [PathBuf::from("LICENSE")]);
         assert!(tar.remove().is_ok());
     }
