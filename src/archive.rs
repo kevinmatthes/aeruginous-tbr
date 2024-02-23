@@ -63,9 +63,9 @@ impl Tar {
         }
 
         if self.exists() {
-            self.update(paths)
+            self.update(files)
         } else {
-            self.create(paths)
+            self.create(files)
         }?;
 
         for directory in directories {
