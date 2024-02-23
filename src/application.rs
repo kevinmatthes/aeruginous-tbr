@@ -97,7 +97,7 @@ impl Logic {
     }
 
     fn tar_archive(&self) -> Result<()> {
-        let tar = crate::TarArchive::new(&self.cli.archive);
+        let tar = crate::Tar::new(&self.cli.archive);
 
         match self.cli.mode {
             Mode::Content => {
