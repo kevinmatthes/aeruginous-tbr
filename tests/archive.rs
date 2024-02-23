@@ -17,7 +17,7 @@
 |                                                                              |
 \******************************************************************************/
 
-use aeruginous_io::PathBufLikeReader;
+mod tar_archive {use aeruginous_io::PathBufLikeReader;
 use aeruginous_tbr::TarArchive;
 use std::path::PathBuf;
 use tempfile::tempdir;
@@ -90,6 +90,6 @@ fn update() {
         ]
     );
     assert!(tar.remove().is_ok());
-}
+}}
 
 /******************************************************************************/
