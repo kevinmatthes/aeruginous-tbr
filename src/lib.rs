@@ -148,7 +148,7 @@ mod application;
 mod archive;
 
 pub use application::{Application, Mode as ApplicationMode};
-pub use archive::TarArchive;
+pub use archive::Tar;
 
 /// This crate's name.
 pub const NAME: &str = "aeruginous-tbr";
