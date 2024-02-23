@@ -53,6 +53,7 @@ impl Tar {
 
             if path.is_dir() {
                 directories.push(path);
+                files.push(path);
             } else if path.is_file() {
                 files.push(path);
             } else if path.is_symlink() && path.exists() {
