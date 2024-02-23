@@ -66,8 +66,17 @@ impl Tar {
             self.create(paths)
         }?;
 
-        self.add_files(directories)?;
-        self.add_files(links)
+        for directory in directories {
+            let mut entries = Vec::new();
+
+            for entry in directory.read_dir()? {
+                entries.push(entry?.path())
+            }
+
+            self.add_files(&entries)?;
+        }
+
+        self.add_files(&links)
     }
 
     fn create<P>(&self, paths: &[P]) -> Result<()>
