@@ -18,8 +18,8 @@
       "Cargo.lock",
       "Cargo.toml",
       "src/lib.rs",
-      "src/tar_archive.rs",
-      "tests/tar_archive.rs",
+      "src/archive.rs",
+      "tests/archive.rs",
     ],
   },
 )
