@@ -73,10 +73,16 @@ impl Tar {
                 entries.push(entry?.path());
             }
 
-            self.add_files(&entries)?;
+            if !entries.is_empty() {
+                self.add_files(&entries)?;
+            }
         }
 
-        self.add_files(&symlinks)
+        if symlinks.is_empty() {
+            Ok(())
+        } else {
+            self.add_files(&symlinks)
+        }
     }
 
     fn create<P>(&self, paths: &[P]) -> Result<()>
