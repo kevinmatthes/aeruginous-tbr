@@ -67,7 +67,8 @@ mod tar {
         let d = d.path().to_str().unwrap();
         let tar = Tar::new(d.to_string() + "/archive.tar");
 
-        std::os::unix::fs::symlink("does_not_exist.txt", "no_such.txt").unwrap();
+        std::os::unix::fs::symlink("does_not_exist.txt", "no_such.txt")
+            .unwrap();
 
         assert!(tar.add_files(["LICENSE", "no_such.txt"]).is_ok());
         assert_eq!(tar.list().unwrap(), [PathBuf::from("LICENSE")]);
