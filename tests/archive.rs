@@ -19,20 +19,20 @@
 
 mod tar_archive {
     use aeruginous_io::PathBufLikeReader;
-    use aeruginous_tbr::TarArchive;
+    use aeruginous_tbr::Tar;
     use std::path::PathBuf;
     use tempfile::tempdir;
 
     #[test]
     fn exists_failure() {
-        assert!(!TarArchive::new("does_not_exist.tar").exists());
+        assert!(!Tar::new("does_not_exist.tar").exists());
     }
 
     #[test]
     fn life_cycle() {
         let d = tempdir().unwrap();
         let d = d.path().to_str().unwrap();
-        let tar = TarArchive::new(d.to_string() + "/life_cycle.tar");
+        let tar = Tar::new(d.to_string() + "/life_cycle.tar");
 
         assert!(!tar.exists());
         assert!(tar.add_files(&["LICENSE"]).is_ok());
@@ -58,7 +58,7 @@ mod tar_archive {
 
     #[test]
     fn remove_failure() {
-        assert!(TarArchive::new("does_not_exist.tar").remove().is_err());
+        assert!(Tar::new("does_not_exist.tar").remove().is_err());
     }
 
     #[test]
@@ -66,7 +66,7 @@ mod tar_archive {
         let d = tempdir().unwrap();
         let d = d.path().to_str().unwrap();
 
-        let tar = TarArchive::new(d.to_string() + "/update.tar");
+        let tar = Tar::new(d.to_string() + "/update.tar");
 
         assert!(!tar.exists());
         assert!(tar
