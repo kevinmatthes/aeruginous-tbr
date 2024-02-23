@@ -49,6 +49,8 @@ impl Tar {
         let mut links = Vec::new();
 
         for path in paths {
+            let path = PathBuf::from(path);
+
             if path.is_dir() {
                 directories.push(path);
             } else if path.is_file() {
