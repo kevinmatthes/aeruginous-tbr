@@ -17,7 +17,7 @@
 |                                                                              |
 \******************************************************************************/
 
-mod tar_archive {
+mod tar {
     use aeruginous_io::PathBufLikeReader;
     use aeruginous_tbr::Tar;
     use std::path::PathBuf;
