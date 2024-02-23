@@ -32,7 +32,7 @@ mod tar {
     fn life_cycle() {
         let d = tempdir().unwrap();
         let d = d.path().to_str().unwrap();
-        let tar = Tar::new(d.to_string() + "/life_cycle.tar");
+        let tar = Tar::new(d.to_string() + "/archive.tar");
 
         assert!(!tar.exists());
         assert!(tar.add_files(&["LICENSE"]).is_ok());
@@ -62,11 +62,24 @@ mod tar {
     }
 
     #[test]
+    fn symlink_does_not_exist() {
+        let d = tempdir().unwrap();
+        let d = d.path().to_str().unwrap();
+        let tar = Tar::new(d.to_string() + "/archive.tar");
+
+        std::os::unix::fs::symlink("does_not_exist.txt", "no_such.txt").unwrap();
+
+        assert!(tar.add_files(["LICENSE", "no_such.txt"]).is_ok());
+        assert_eq!(tar.list().unwrap(), [PathBuf::from("LICENSE")]);
+        assert!(tar.remove().is_ok());
+    }
+
+    #[test]
     fn update() {
         let d = tempdir().unwrap();
         let d = d.path().to_str().unwrap();
 
-        let tar = Tar::new(d.to_string() + "/update.tar");
+        let tar = Tar::new(d.to_string() + "/archive.tar");
 
         assert!(!tar.exists());
         assert!(tar
