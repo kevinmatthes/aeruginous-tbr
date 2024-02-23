@@ -52,7 +52,7 @@ impl Tar {
             let path = PathBuf::from(path);
 
             if path.is_dir() {
-                directories.push(path);
+                directories.push(&path);
                 files.push(path);
             } else if path.is_file() {
                 files.push(path);
