@@ -46,7 +46,7 @@ impl Tar {
     {
         let mut directories = Vec::new();
         let mut files = Vec::new();
-        let mut links = Vec::new();
+        let mut symlinks = Vec::new();
 
         for path in paths {
             let path = PathBuf::from(path);
@@ -55,9 +55,9 @@ impl Tar {
                 directories.push(path);
             } else if path.is_file() {
                 files.push(path);
-            } else if path.is_link() {
+            } else if path.is_symlink() {
                 if path.exists() {
-                    links.push(path.read_link()?);
+                    symlinks.push(path.read_link()?);
                 }
             }
         }
@@ -78,7 +78,7 @@ impl Tar {
             self.add_files(&entries)?;
         }
 
-        self.add_files(&links)
+        self.add_files(&symlinks)
     }
 
     fn create<P>(&self, paths: &[P]) -> Result<()>
