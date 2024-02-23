@@ -46,12 +46,17 @@ impl Tar {
     {
         let mut directories = Vec::new();
         let mut files = Vec::new();
+        let mut links = Vec::new();
 
         for path in paths {
             if path.is_dir() {
                 directories.push(path);
-            } else {
+            } else if path.is_file() {
                 files.push(path);
+            } else if path.is_link() {
+                if path.exists() {
+                    links.push(path.read_link()?);
+                }
             }
         }
 
@@ -59,9 +64,10 @@ impl Tar {
             self.update(paths)
         } else {
             self.create(paths)
-        }?
+        }?;
 
-        self.add_files(directories)
+        self.add_files(directories)?;
+        self.add_files(links)
     }
 
     fn create<P>(&self, paths: &[P]) -> Result<()>
