@@ -44,11 +44,24 @@ impl Tar {
     where
         P: AsRef<OsStr> + AsRef<Path>,
     {
+        let mut directories = Vec::new();
+        let mut files = Vec::new();
+
+        for path in paths {
+            if path.is_dir() {
+                directories.push(path);
+            } else {
+                files.push(path);
+            }
+        }
+
         if self.exists() {
             self.update(paths)
         } else {
             self.create(paths)
-        }
+        }?
+
+        self.add_files(directories)
     }
 
     fn create<P>(&self, paths: &[P]) -> Result<()>
