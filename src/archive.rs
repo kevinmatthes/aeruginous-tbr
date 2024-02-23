@@ -55,10 +55,8 @@ impl Tar {
                 directories.push(path);
             } else if path.is_file() {
                 files.push(path);
-            } else if path.is_symlink() {
-                if path.exists() {
-                    symlinks.push(path.read_link()?);
-                }
+            } else if path.is_symlink() && path.exists() {
+                symlinks.push(path.read_link()?);
             }
         }
 
@@ -72,7 +70,7 @@ impl Tar {
             let mut entries = Vec::new();
 
             for entry in directory.read_dir()? {
-                entries.push(entry?.path())
+                entries.push(entry?.path());
             }
 
             self.add_files(&entries)?;
