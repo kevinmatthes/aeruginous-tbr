@@ -19,7 +19,7 @@
 
 mod application {
     mod archive_content_preview {
-        use aeruginous_tbr::{Application, TarArchive};
+        use aeruginous_tbr::{Application, Tar};
         use clap::Parser;
         use std::path::PathBuf;
 
@@ -59,7 +59,7 @@ mod application {
             .main()
             .is_ok());
 
-            let tar = TarArchive::new(d.to_string() + "/archive.tar");
+            let tar = Tar::new(d.to_string() + "/archive.tar");
 
             assert!(tar.exists());
             assert_eq!(tar.list().unwrap(), [PathBuf::from("LICENSE")]);
@@ -119,7 +119,7 @@ mod application {
     }
 
     mod archive_update {
-        use aeruginous_tbr::{Application, TarArchive};
+        use aeruginous_tbr::{Application, Tar};
         use clap::Parser;
         use std::path::PathBuf;
 
@@ -135,7 +135,7 @@ mod application {
             .main()
             .is_ok());
 
-            let tar = TarArchive::new(d.to_string() + "/archive.tar");
+            let tar = Tar::new(d.to_string() + "/archive.tar");
 
             assert!(tar.exists());
             assert_eq!(
