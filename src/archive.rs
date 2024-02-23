@@ -30,11 +30,11 @@ use tar::{Archive, Builder};
 /// This abstraction can be used to interact with TAR archives in the file
 /// system.  It supports transactions such as creation, updating, extraction,
 /// and content information.
-pub struct TarArchive {
+pub struct Tar {
     path: PathBuf,
 }
 
-impl TarArchive {
+impl Tar {
     /// Add a file to this TAR archive.
     ///
     /// # Errors
