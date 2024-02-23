@@ -17,79 +17,81 @@
 |                                                                              |
 \******************************************************************************/
 
-mod tar_archive {use aeruginous_io::PathBufLikeReader;
-use aeruginous_tbr::TarArchive;
-use std::path::PathBuf;
-use tempfile::tempdir;
+mod tar_archive {
+    use aeruginous_io::PathBufLikeReader;
+    use aeruginous_tbr::TarArchive;
+    use std::path::PathBuf;
+    use tempfile::tempdir;
 
-#[test]
-fn exists_failure() {
-    assert!(!TarArchive::new("does_not_exist.tar").exists());
+    #[test]
+    fn exists_failure() {
+        assert!(!TarArchive::new("does_not_exist.tar").exists());
+    }
+
+    #[test]
+    fn life_cycle() {
+        let d = tempdir().unwrap();
+        let d = d.path().to_str().unwrap();
+        let tar = TarArchive::new(d.to_string() + "/life_cycle.tar");
+
+        assert!(!tar.exists());
+        assert!(tar.add_files(&["LICENSE"]).is_ok());
+        assert_eq!(tar.list().unwrap(), [PathBuf::from("LICENSE")]);
+        assert!(tar.add_files(&[".renovaterc.json5"]).is_ok());
+        assert_eq!(
+            tar.list().unwrap(),
+            [PathBuf::from(".renovaterc.json5"), PathBuf::from("LICENSE")]
+        );
+        assert!(tar.extract(d).is_ok());
+        assert_eq!(
+            ".renovaterc.json5".read_silently().unwrap(),
+            (d.to_string() + "/.renovaterc.json5")
+                .read_silently()
+                .unwrap()
+        );
+        assert_eq!(
+            "LICENSE".read_silently().unwrap(),
+            (d.to_string() + "/LICENSE").read_silently().unwrap()
+        );
+        assert!(tar.remove().is_ok());
+    }
+
+    #[test]
+    fn remove_failure() {
+        assert!(TarArchive::new("does_not_exist.tar").remove().is_err());
+    }
+
+    #[test]
+    fn update() {
+        let d = tempdir().unwrap();
+        let d = d.path().to_str().unwrap();
+
+        let tar = TarArchive::new(d.to_string() + "/update.tar");
+
+        assert!(!tar.exists());
+        assert!(tar
+            .add_files(&["Cargo.lock", "Cargo.toml", "LICENSE"])
+            .is_ok());
+        assert_eq!(
+            tar.list().unwrap(),
+            [
+                PathBuf::from("Cargo.lock"),
+                PathBuf::from("Cargo.toml"),
+                PathBuf::from("LICENSE")
+            ]
+        );
+        assert!(tar.add_files(&["LICENSE", "CITATION.cff"]).is_ok());
+        assert_eq!(
+            tar.list().unwrap(),
+            [
+                PathBuf::from("LICENSE"),
+                PathBuf::from("CITATION.cff"),
+                PathBuf::from("Cargo.lock"),
+                PathBuf::from("Cargo.toml")
+            ]
+        );
+        assert!(tar.remove().is_ok());
+    }
 }
-
-#[test]
-fn life_cycle() {
-    let d = tempdir().unwrap();
-    let d = d.path().to_str().unwrap();
-    let tar = TarArchive::new(d.to_string() + "/life_cycle.tar");
-
-    assert!(!tar.exists());
-    assert!(tar.add_files(&["LICENSE"]).is_ok());
-    assert_eq!(tar.list().unwrap(), [PathBuf::from("LICENSE")]);
-    assert!(tar.add_files(&[".renovaterc.json5"]).is_ok());
-    assert_eq!(
-        tar.list().unwrap(),
-        [PathBuf::from(".renovaterc.json5"), PathBuf::from("LICENSE")]
-    );
-    assert!(tar.extract(d).is_ok());
-    assert_eq!(
-        ".renovaterc.json5".read_silently().unwrap(),
-        (d.to_string() + "/.renovaterc.json5")
-            .read_silently()
-            .unwrap()
-    );
-    assert_eq!(
-        "LICENSE".read_silently().unwrap(),
-        (d.to_string() + "/LICENSE").read_silently().unwrap()
-    );
-    assert!(tar.remove().is_ok());
-}
-
-#[test]
-fn remove_failure() {
-    assert!(TarArchive::new("does_not_exist.tar").remove().is_err());
-}
-
-#[test]
-fn update() {
-    let d = tempdir().unwrap();
-    let d = d.path().to_str().unwrap();
-
-    let tar = TarArchive::new(d.to_string() + "/update.tar");
-
-    assert!(!tar.exists());
-    assert!(tar
-        .add_files(&["Cargo.lock", "Cargo.toml", "LICENSE"])
-        .is_ok());
-    assert_eq!(
-        tar.list().unwrap(),
-        [
-            PathBuf::from("Cargo.lock"),
-            PathBuf::from("Cargo.toml"),
-            PathBuf::from("LICENSE")
-        ]
-    );
-    assert!(tar.add_files(&["LICENSE", "CITATION.cff"]).is_ok());
-    assert_eq!(
-        tar.list().unwrap(),
-        [
-            PathBuf::from("LICENSE"),
-            PathBuf::from("CITATION.cff"),
-            PathBuf::from("Cargo.lock"),
-            PathBuf::from("Cargo.toml")
-        ]
-    );
-    assert!(tar.remove().is_ok());
-}}
 
 /******************************************************************************/
