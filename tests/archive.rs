@@ -62,7 +62,7 @@ mod tar {
     }
 
     #[test]
-    fn symlink_does_not_exist() {
+    fn symlink_target_does_not_exist() {
         let d = tempdir().unwrap();
         let d = d.path().to_str().unwrap();
         let tar = Tar::new(d.to_string() + "/archive.tar");
@@ -76,7 +76,7 @@ mod tar {
         .unwrap();
 
         assert!(tar
-            .add_files(&["LICENSE".to_sting(), d.to_string() + "/no_such.txt"])
+            .add_files(&["LICENSE".to_string(), d.to_string() + "/no_such.txt"])
             .is_ok());
         assert_eq!(tar.list().unwrap(), [PathBuf::from("LICENSE")]);
         assert!(tar.remove().is_ok());
