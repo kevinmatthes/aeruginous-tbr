@@ -1,0 +1,9 @@
+(
+  references: {},
+  changes: {
+    "Added": [
+      "Tar",
+      "traverse input directories recursively; fixes #33",
+    ],
+  },
+)

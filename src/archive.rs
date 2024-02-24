@@ -30,11 +30,11 @@ use tar::{Archive, Builder};
 /// This abstraction can be used to interact with TAR archives in the file
 /// system.  It supports transactions such as creation, updating, extraction,
 /// and content information.
-pub struct TarArchive {
+pub struct Tar {
     path: PathBuf,
 }
 
-impl TarArchive {
+impl Tar {
     /// Add a file to this TAR archive.
     ///
     /// # Errors
@@ -44,10 +44,45 @@ impl TarArchive {
     where
         P: AsRef<OsStr> + AsRef<Path>,
     {
+        let mut directories = Vec::new();
+        let mut files = Vec::new();
+        let mut symlinks = Vec::new();
+
+        for path in paths {
+            let path = PathBuf::from(path);
+
+            if path.is_dir() {
+                directories.push(path.clone());
+                files.push(path);
+            } else if path.is_file() {
+                files.push(path);
+            } else if path.is_symlink() && path.exists() {
+                symlinks.push(path.read_link()?);
+            }
+        }
+
         if self.exists() {
-            self.update(paths)
+            self.update(&files)
         } else {
-            self.create(paths)
+            self.create(&files)
+        }?;
+
+        for directory in directories {
+            let mut entries = Vec::new();
+
+            for entry in directory.read_dir()? {
+                entries.push(entry?.path());
+            }
+
+            if !entries.is_empty() {
+                self.add_files(&entries)?;
+            }
+        }
+
+        if symlinks.is_empty() {
+            Ok(())
+        } else {
+            self.add_files(&symlinks)
         }
     }
 
