@@ -51,7 +51,7 @@ with TAR.BR files.
 1. [License](#license)
 1. [Dependencies](#dependencies)
 
-The current code coverage is **<!-- cov -->91.76%<!-- cov -->**.
+The current code coverage is **<!-- cov -->87.18%<!-- cov -->**.
 
 ## License
 
