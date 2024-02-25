@@ -67,11 +67,7 @@ mod tar {
         let d = d.path().to_str().unwrap();
         let tar = Tar::new(d.to_string() + "/archive.tar");
 
-        symlink(
-            "does_not_exist.txt",
-            d.to_string() + "/no_such.txt",
-        )
-        .unwrap();
+        symlink("does_not_exist.txt", d.to_string() + "/no_such.txt").unwrap();
 
         assert!(tar
             .add_files(&["LICENSE".to_string(), d.to_string() + "/no_such.txt"])
@@ -87,8 +83,13 @@ mod tar {
 
         symlink("CITATION.cff", d.to_string() + "/main.cff").unwrap();
 
-        assert!(tar.add_files(&["LICENSE", d.to_string() + "/main.cff"]).is_ok());
-        assert_eq!(tar.list().unwrap(), [PathBuf::from("LICENSE"), PathBuf::from("CITATION.cff")]);
+        assert!(tar
+            .add_files(&["LICENSE", d.to_string() + "/main.cff"])
+            .is_ok());
+        assert_eq!(
+            tar.list().unwrap(),
+            [PathBuf::from("LICENSE"), PathBuf::from("CITATION.cff")]
+        );
     }
 
     #[test]
