@@ -2,7 +2,7 @@
   references: {},
   changes: {
     "Added": [
-      "tests cases for Tar; fixes #10",
+      "test cases for Tar; fixes #10",
     ],
   },
 )
