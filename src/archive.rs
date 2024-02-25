@@ -56,7 +56,7 @@ impl Tar {
                 files.push(path);
             } else if path.is_file() {
                 files.push(path);
-            } else if path.is_symlink() && path.exists() {
+            } else if path.is_symlink() && path.read_link()?.exists() {
                 symlinks.push(path.read_link()?);
             }
         }
