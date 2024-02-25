@@ -88,7 +88,7 @@ mod tar {
             .is_ok());
         assert_eq!(
             tar.list().unwrap(),
-            [PathBuf::from("LICENSE"), PathBuf::from("CITATION.cff")]
+            [PathBuf::from("CITATION.cff"), PathBuf::from("LICENSE")]
         );
     }
 
