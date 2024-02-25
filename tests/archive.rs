@@ -84,7 +84,7 @@ mod tar {
         symlink("CITATION.cff", d.to_string() + "/main.cff").unwrap();
 
         assert!(tar
-            .add_files(&["LICENSE", d.to_string() + "/main.cff"])
+            .add_files(&["LICENSE".to_string(), d.to_string() + "/main.cff"])
             .is_ok());
         assert_eq!(
             tar.list().unwrap(),
