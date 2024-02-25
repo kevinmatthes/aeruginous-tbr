@@ -20,7 +20,7 @@
 mod tar {
     use aeruginous_io::PathBufLikeReader;
     use aeruginous_tbr::Tar;
-    use std::path::PathBuf;
+    use std::{os::unix::fs::symlink, path::PathBuf};
     use tempfile::tempdir;
 
     #[test]
@@ -67,17 +67,29 @@ mod tar {
         let d = d.path().to_str().unwrap();
         let tar = Tar::new(d.to_string() + "/archive.tar");
 
-        std::os::unix::fs::symlink(
-            "does_not_exist.txt",
-            d.to_string() + "/no_such.txt",
-        )
-        .unwrap();
+        symlink("does_not_exist.txt", d.to_string() + "/no_such.txt").unwrap();
 
         assert!(tar
             .add_files(&["LICENSE".to_string(), d.to_string() + "/no_such.txt"])
             .is_ok());
         assert_eq!(tar.list().unwrap(), [PathBuf::from("LICENSE")]);
-        assert!(tar.remove().is_ok());
+    }
+
+    #[test]
+    fn symlink_exists() {
+        let d = tempdir().unwrap();
+        let d = d.path().to_str().unwrap();
+        let tar = Tar::new(d.to_string() + "/archive.tar");
+
+        symlink("CITATION.cff", d.to_string() + "/main.cff").unwrap();
+
+        assert!(tar
+            .add_files(&["LICENSE".to_string(), d.to_string() + "/main.cff"])
+            .is_ok());
+        assert_eq!(
+            tar.list().unwrap(),
+            [PathBuf::from("CITATION.cff"), PathBuf::from("LICENSE")]
+        );
     }
 
     #[test]
