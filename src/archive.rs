@@ -164,7 +164,10 @@ impl Tar {
     where
         P: AsRef<OsStr> + AsRef<Path>,
     {
+        let directory = tempfile::tempdir()?;
+        let directory = directory.path().to_str()?;
         let mut files = Vec::new();
+        let new_path = format!("{directory}/{}", self.path.display());
 
         for path in paths {
             files.push(PathBuf::from(path));
