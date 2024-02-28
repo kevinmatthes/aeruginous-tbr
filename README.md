@@ -51,7 +51,7 @@ with TAR.BR files.
 1. [License](#license)
 1. [Dependencies](#dependencies)
 
-The current code coverage is **<!-- cov -->87.18%<!-- cov -->**.
+The current code coverage is **<!-- cov -->88.61%<!-- cov -->**.
 
 ## License
 
@@ -95,5 +95,9 @@ follows:
 - [`tar`]
   [![](https://img.shields.io/crates/l/tar)
   ](https://github.com/alexcrichton/tar-rs)
+
+- [`tempfile`]
+  [![](https://img.shields.io/crates/l/tempfile)
+  ](https://github.com/Stebalien/tempfile)
 
 <!------------------------------------------------------------------------->
