@@ -173,9 +173,6 @@ impl Tar {
             files.push(PathBuf::from(path));
         }
 
-        let mut new_path = self.path.clone();
-        new_path.set_extension("new.tar");
-
         let files = &files;
         let mut new_archive = Builder::new(File::create(&new_path)?);
         let mut old_archive = Archive::new(File::open(&self.path)?);
