@@ -168,7 +168,7 @@ impl Tar {
             tempfile::tempdir().map_or(Err(ExitCode::Unavailable), Ok)?;
         let directory = directory.path().to_str().ok_or(ExitCode::DataErr)?;
         let mut files = Vec::new();
-        let new_path = format!("{directory}/{}", self.path.display());
+        let new_path = format!("{directory}/{}", self.path.file_name().to_str().ok_or(ExitCode::DataErr)?);
 
         for path in paths {
             files.push(PathBuf::from(path));
