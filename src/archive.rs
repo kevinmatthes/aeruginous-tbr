@@ -172,7 +172,7 @@ impl Tar {
             "{directory}/{}",
             self.path
                 .file_name()
-                .map_or(Err(ExitCode::DataErr), Ok)?
+                .ok_or(ExitCode::DataErr)?
                 .to_str()
                 .ok_or(ExitCode::DataErr)?
         );
