@@ -115,6 +115,10 @@
 //!   [![](https://img.shields.io/crates/l/tar)
 //!   ](https://github.com/alexcrichton/tar-rs)
 //!
+//! - [`tempfile`]
+//!   [![](https://img.shields.io/crates/l/tempfile)
+//!   ](https://github.com/Stebalien/tempfile)
+//!
 //! <!------------------------------------------------------------------------->
 
 #![doc(

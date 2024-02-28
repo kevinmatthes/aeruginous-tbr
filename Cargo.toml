@@ -4,6 +4,7 @@ clap = { version = "4.5.1", features = ["derive"] }
 glob = "0.3.1"
 sysexits = "0.7.11"
 tar = { version = "0.4.40", default-features = false }
+tempfile = "3.10.1"
 
 [package]
 authors = ["Kevin Matthes <aeruginous.rs@gmail.com>"]
@@ -22,7 +23,6 @@ version = "0.1.0"
 
 [dev-dependencies]
 aeruginous-io = "0.8.0"
-tempfile = "3.10.1"
 
 [[bin]]
 name = "tbr"
