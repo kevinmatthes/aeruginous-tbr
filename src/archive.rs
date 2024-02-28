@@ -170,7 +170,11 @@ impl Tar {
         let mut files = Vec::new();
         let new_path = format!(
             "{directory}/{}",
-            self.path.file_name().map_or(Err(ExitCode::DataErr), Ok)?.to_str().ok_or(ExitCode::DataErr)?
+            self.path
+                .file_name()
+                .map_or(Err(ExitCode::DataErr), Ok)?
+                .to_str()
+                .ok_or(ExitCode::DataErr)?
         );
 
         for path in paths {
