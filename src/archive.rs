@@ -22,7 +22,7 @@ use std::{
     fs::{remove_file, File},
     path::{Path, PathBuf},
 };
-use sysexits::Result;
+use sysexits::{ExitCode, Result};
 use tar::{Archive, Builder};
 
 /// The abstraction of a TAR archive.
@@ -165,8 +165,8 @@ impl Tar {
         P: AsRef<OsStr> + AsRef<Path>,
     {
         let directory =
-            tempfile::tempdir().ok_or(sysexits::ExitCode::Unavailable)?;
-        let directory = directory.path().to_str()?;
+            tempfile::tempdir().map_or(Err(ExitCode::Unavailable), Ok)?;
+        let directory = directory.path().to_str().ok_or(ExitCode::DataErr)?;
         let mut files = Vec::new();
         let new_path = format!("{directory}/{}", self.path.display());
 
