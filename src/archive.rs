@@ -164,7 +164,8 @@ impl Tar {
     where
         P: AsRef<OsStr> + AsRef<Path>,
     {
-        let directory = tempfile::tempdir().ok_or(sysexits::ExitCode::Unavailable)?;
+        let directory =
+            tempfile::tempdir().ok_or(sysexits::ExitCode::Unavailable)?;
         let directory = directory.path().to_str()?;
         let mut files = Vec::new();
         let new_path = format!("{directory}/{}", self.path.display());
