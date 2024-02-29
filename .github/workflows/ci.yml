@@ -82,16 +82,20 @@ jobs:
 
       - run: |
           rustup update
-          cargo ${{ matrix.cargo }}
+          cargo ${{ matrix.command }} ${{ matrix.feature }}
     strategy:
       matrix:
-        cargo:
+        command:
           - b
           - c
           - clippy
           - d
-          - fmt --check
           - t
+        feature:
+          - ;
+          - --all-features
+          - --no-default-features
+          - --no-default-features -F cli
 
   cffconvert:
     runs-on: ubuntu-latest
@@ -120,5 +124,14 @@ jobs:
           npx -p renovate \
               -c 'renovate-config-validator .renovaterc.json5 --strict' \
               -y
+
+  rustfmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+        with:
+          persist-credentials: false
+
+      - run: cargo fmt --check
 
 ################################################################################
