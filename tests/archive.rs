@@ -17,6 +17,15 @@
 |                                                                              |
 \******************************************************************************/
 
+mod brotli {
+    use aeruginous_tbr::Brotli;
+
+    #[test]
+    fn exists_failure() {
+        assert!(!Brotli::new("does_not_exist.br").exists());
+    }
+}
+
 mod tar {
     use aeruginous_io::PathBufLikeReader;
     use aeruginous_tbr::Tar;
