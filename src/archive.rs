@@ -49,6 +49,15 @@ impl Brotli {
     {
         Self { path: path.into() }
     }
+
+    /// Remove this Brotli archive from the file system.
+    ///
+    /// # Errors
+    ///
+    /// See [`sysexits::ExitCode`].
+    pub fn remove(&self) -> Result<()> {
+        Ok(remove_file(&self.path)?)
+    }
 }
 
 /// The abstraction of a TAR archive.
