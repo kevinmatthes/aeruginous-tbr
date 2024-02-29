@@ -35,6 +35,21 @@ pub struct Brotli {
 }
 
 impl Brotli {
+    /// Decompress this Brotli archive.
+    ///
+    /// # Errors
+    ///
+    /// See [`sysexits::ExitCode`].
+    pub fn decompress(&self) -> Result<()> {
+        let source = self.path.to_str()?;
+        let target = match source.strip_suffix(".br") {
+            Some(s) => s,
+            None => source,
+        };
+
+        Ok(brotli::BrotliDecompress(&mut File::open(source)?, &mut File::create(target)?)?)
+    }
+
     /// Whether this Brotli archive already exists in the file system.
     #[must_use]
     pub fn exists(&self) -> bool {
