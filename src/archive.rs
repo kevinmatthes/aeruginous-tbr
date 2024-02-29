@@ -76,7 +76,15 @@ impl Brotli {
 
         Ok(brotli::BrotliDecompress(
             &mut File::open(source)?,
-            &mut File::create(destination.as_ref().path().to_str().ok_or(ExitCode::DataErr)?.to_string() + target)?,
+            &mut File::create(
+                destination
+                    .as_ref()
+                    .path()
+                    .to_str()
+                    .ok_or(ExitCode::DataErr)?
+                    .to_string()
+                    + target,
+            )?,
         )?)
     }
 
