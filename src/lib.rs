@@ -148,9 +148,11 @@
     unused_variables
 )]
 
+#[cfg(feature = "cli")]
 mod application;
 mod archive;
 
+#[cfg(feature = "cli")]
 pub use application::{Application, Mode as ApplicationMode};
 pub use archive::Tar;
 
