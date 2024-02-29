@@ -35,6 +35,31 @@ pub struct Brotli {
 }
 
 impl Brotli {
+    /// Compress the given file to create a Brotli archive in the file system.
+    ///
+    /// The compression will be done basically using the default settings (see
+    /// [`brotli::enc::BrotliEncoderParams::default`]) despite the following
+    /// customisations:
+    ///
+    /// - quality:  11 (best possible compression rate).
+    ///
+    /// # Errors
+    ///
+    /// See [`sysexits::ExitCode`].
+    pub fn compress(&self, path: P) -> Result<()>
+    where
+        P: AsRef<Path>,
+    {
+        let mut settings = brotli::enc::BrotliEncoderParams::default();
+        settings.quality = 11;
+
+        Ok(brotli::BrotliCompress(
+            &mut File::open(path),
+            &mut File::create(&self.path),
+            &settings,
+        )?)
+    }
+
     /// Decompress this Brotli archive.
     ///
     /// # Errors
