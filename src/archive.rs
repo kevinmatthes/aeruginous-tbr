@@ -47,7 +47,10 @@ impl Brotli {
             None => source,
         };
 
-        Ok(brotli::BrotliDecompress(&mut File::open(source)?, &mut File::create(target)?)?)
+        Ok(brotli::BrotliDecompress(
+            &mut File::open(source)?,
+            &mut File::create(target)?,
+        )?)
     }
 
     /// Whether this Brotli archive already exists in the file system.
