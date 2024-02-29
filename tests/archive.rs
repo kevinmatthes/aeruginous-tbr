@@ -18,11 +18,30 @@
 \******************************************************************************/
 
 mod brotli {
+    use aeruginous_io::PathBufLikeReader;
     use aeruginous_tbr::Brotli;
+    use tempfile::tempdir;
 
     #[test]
     fn exists_failure() {
         assert!(!Brotli::new("does_not_exist.br").exists());
+    }
+
+    #[test]
+    fn life_cycle() {
+        let d = tempdir().unwrap();
+        let d = d.path().to_str().unwrap();
+        let br = Brotli::new(d.to_string() + "/LICENSE.br");
+
+        assert!(!br.exists());
+        assert!(br.compress().is_ok());
+        assert!(br.exists());
+        assert!(br.decompress(d).is_ok());
+        assert_eq!(
+            "LICENSE".read_silently().unwrap(),
+            (d.to_string() + "/LICENSE").read_silently().unwrap()
+        );
+        assert!(br.remove().is_ok());
     }
 }
 
