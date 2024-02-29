@@ -17,6 +17,8 @@
 |                                                                              |
 \******************************************************************************/
 
+#![cfg(feature = "cli")]
+
 use std::path::PathBuf;
 use sysexits::{ExitCode, Result};
 
