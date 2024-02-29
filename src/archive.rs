@@ -46,7 +46,7 @@ impl Brotli {
     /// # Errors
     ///
     /// See [`sysexits::ExitCode`].
-    pub fn compress(&self, path: P) -> Result<()>
+    pub fn compress<P>(&self, path: P) -> Result<()>
     where
         P: AsRef<Path>,
     {
