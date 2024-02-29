@@ -1,10 +1,14 @@
 [dependencies]
 brotli = { version = "3.4.0", default-features = false }
-clap = { version = "4.5.1", features = ["derive"] }
+clap = { version = "4.5.1", features = ["derive"], optional = true }
 glob = "0.3.1"
 sysexits = "0.7.11"
 tar = { version = "0.4.40", default-features = false }
 tempfile = "3.10.1"
+
+[features]
+cli = ["dep:clap"]
+default = ["cli"]
 
 [package]
 authors = ["Kevin Matthes <aeruginous.rs@gmail.com>"]
