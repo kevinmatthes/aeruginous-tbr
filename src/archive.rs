@@ -71,19 +71,18 @@ impl Brotli {
     where
         P: AsRef<Path>,
     {
-        let source = self.path
-                .file_name()
-                .ok_or(ExitCode::DataErr)?
-                .to_str()
-                .ok_or(ExitCode::DataErr)?;
+        let source = self
+            .path
+            .file_name()
+            .ok_or(ExitCode::DataErr)?
+            .to_str()
+            .ok_or(ExitCode::DataErr)?;
         let target = destination
             .as_ref()
             .to_str()
             .ok_or(ExitCode::DataErr)?
             .to_string()
-            + source
-                .strip_suffix(".br")
-                .map_or(source, |s| s);
+            + source.strip_suffix(".br").map_or(source, |s| s);
 
         eprintln!("{source} → {target}");
 
