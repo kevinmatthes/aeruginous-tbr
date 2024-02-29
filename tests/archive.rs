@@ -31,15 +31,15 @@ mod brotli {
     fn life_cycle() {
         let d = tempdir().unwrap();
         let d = d.path().to_str().unwrap();
-        let br = Brotli::new(d.to_string() + "/LICENSE.br");
+        let br = Brotli::new(d.to_string() + "/archive.br");
 
         assert!(!br.exists());
-        assert!(br.compress().is_ok());
+        assert!(br.compress("LICENSE").is_ok());
         assert!(br.exists());
         assert!(br.decompress(d).is_ok());
         assert_eq!(
             "LICENSE".read_silently().unwrap(),
-            (d.to_string() + "/LICENSE").read_silently().unwrap()
+            (d.to_string() + "/archive").read_silently().unwrap()
         );
         assert!(br.remove().is_ok());
     }
