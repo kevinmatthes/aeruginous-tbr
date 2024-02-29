@@ -25,11 +25,28 @@ use std::{
 use sysexits::{ExitCode, Result};
 use tar::{Archive, Builder};
 
+/// The abstraction of a Brotli archive.
+///
+/// This abstraction can be used to interact with Brotli archives in the file
+/// system.  It supports transactions such as creation, updating, extraction,
+/// removal, and content information.
+pub struct Brotli {
+    path: PathBuf,
+}
+
+impl Brotli {
+    /// Whether this Brotli archive already exists in the file system.
+    #[must_use]
+    pub fn exists(&self) -> bool {
+        self.path.exists()
+    }
+}
+
 /// The abstraction of a TAR archive.
 ///
 /// This abstraction can be used to interact with TAR archives in the file
 /// system.  It supports transactions such as creation, updating, extraction,
-/// and content information.
+/// removal, and content information.
 pub struct Tar {
     path: PathBuf,
 }
