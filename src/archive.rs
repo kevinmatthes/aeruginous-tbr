@@ -54,8 +54,8 @@ impl Brotli {
         settings.quality = 11;
 
         Ok(brotli::BrotliCompress(
-            &mut File::open(path),
-            &mut File::create(&self.path),
+            &mut File::open(path)?,
+            &mut File::create(&self.path)?,
             &settings,
         )?)
     }
