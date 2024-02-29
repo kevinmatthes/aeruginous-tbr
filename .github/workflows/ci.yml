@@ -69,6 +69,7 @@ jobs:
       - cargo
       - cffconvert
       - renovate-linter
+      - rustfmt
     runs-on: ubuntu-latest
     steps:
       - run: bash -c 'exit 0'
