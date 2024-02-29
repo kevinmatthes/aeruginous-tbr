@@ -62,18 +62,21 @@ impl Brotli {
         Ok(())
     }
 
-    /// Decompress this Brotli archive.
+    /// Decompress this Brotli archive into the given directory.
     ///
     /// # Errors
     ///
     /// See [`sysexits::ExitCode`].
-    pub fn decompress(&self) -> Result<()> {
+    pub fn decompress<P>(&self, destination: P) -> Result<()>
+    where
+        P: AsRef<Path>,
+    {
         let source = self.path.to_str().ok_or(ExitCode::DataErr)?;
         let target = source.strip_suffix(".br").map_or(source, |s| s);
 
         Ok(brotli::BrotliDecompress(
             &mut File::open(source)?,
-            &mut File::create(target)?,
+            &mut File::create(P.as_ref().path().to_str().ok_or(ExitCode::DataErr)?.to_string() + target)?,
         )?)
     }
 
