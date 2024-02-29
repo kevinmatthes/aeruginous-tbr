@@ -72,18 +72,16 @@ impl Brotli {
         P: AsRef<Path>,
     {
         let source = self.path.to_str().ok_or(ExitCode::DataErr)?;
-        let target = source.strip_suffix(".br").map_or(source, |s| s);
-
-        Ok(brotli::BrotliDecompress(
-            &mut File::open(source)?,
-            &mut File::create(
-                destination
+        let target = destination
                     .as_ref()
                     .to_str()
                     .ok_or(ExitCode::DataErr)?
                     .to_string()
-                    + target,
-            )?,
+                    + source.file_name().ok_or(ExitCode::DataErr)?.to_str().ok_or(ExitCode::DataErr)?.strip_suffix(".br").map_or(source, |s| s);
+
+        Ok(brotli::BrotliDecompress(
+            &mut File::open(source)?,
+            &mut File::create(target)?,
         )?)
     }
 
