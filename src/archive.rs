@@ -53,11 +53,13 @@ impl Brotli {
         let mut settings = brotli::enc::BrotliEncoderParams::default();
         settings.quality = 11;
 
-        Ok(brotli::BrotliCompress(
+        brotli::BrotliCompress(
             &mut File::open(path)?,
             &mut File::create(&self.path)?,
             &settings,
-        )?)
+        )?;
+
+        Ok(())
     }
 
     /// Decompress this Brotli archive.
@@ -66,7 +68,7 @@ impl Brotli {
     ///
     /// See [`sysexits::ExitCode`].
     pub fn decompress(&self) -> Result<()> {
-        let source = self.path.to_str()?;
+        let source = self.path.to_str().ok_or(ExitCode::DataErr)?;
         let target = match source.strip_suffix(".br") {
             Some(s) => s,
             None => source,
