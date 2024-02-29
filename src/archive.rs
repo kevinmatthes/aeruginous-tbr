@@ -40,6 +40,15 @@ impl Brotli {
     pub fn exists(&self) -> bool {
         self.path.exists()
     }
+
+    /// Create a new instance.  This method **does not** create a new Brotli
+    /// archive in the file system.
+    pub fn new<P>(path: P) -> Self
+    where
+        PathBuf: From<P>,
+    {
+        Self { path: path.into() }
+    }
 }
 
 /// The abstraction of a TAR archive.
