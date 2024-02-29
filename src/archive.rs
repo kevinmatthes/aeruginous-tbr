@@ -82,10 +82,8 @@ impl Brotli {
             .to_str()
             .ok_or(ExitCode::DataErr)?
             .to_string()
-            + '/'
+            + "/"
             + source.strip_suffix(".br").map_or(source, |s| s);
-
-        eprintln!("{source} → {target}");
 
         Ok(brotli::BrotliDecompress(
             &mut File::open(&self.path)?,
