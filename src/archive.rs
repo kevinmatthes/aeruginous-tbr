@@ -79,7 +79,6 @@ impl Brotli {
             &mut File::create(
                 destination
                     .as_ref()
-                    .path()
                     .to_str()
                     .ok_or(ExitCode::DataErr)?
                     .to_string()
