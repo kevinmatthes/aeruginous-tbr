@@ -43,6 +43,11 @@ mod brotli {
         );
         assert!(br.remove().is_ok());
     }
+
+    #[test]
+    fn remove_failure() {
+        assert!(Brotli::new("does_not_exist.br").remove().is_err());
+    }
 }
 
 mod tar {
