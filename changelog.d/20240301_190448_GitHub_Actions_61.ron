@@ -1,0 +1,8 @@
+(
+  references: {},
+  changes: {
+    "Added": [
+      "CI:  run PR workflow properly also on forks; fixes #61",
+    ],
+  },
+)
