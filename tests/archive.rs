@@ -17,6 +17,39 @@
 |                                                                              |
 \******************************************************************************/
 
+mod brotli {
+    use aeruginous_io::PathBufLikeReader;
+    use aeruginous_tbr::Brotli;
+    use tempfile::tempdir;
+
+    #[test]
+    fn exists_failure() {
+        assert!(!Brotli::new("does_not_exist.br").exists());
+    }
+
+    #[test]
+    fn life_cycle() {
+        let d = tempdir().unwrap();
+        let d = d.path().to_str().unwrap();
+        let br = Brotli::new(d.to_string() + "/archive.br");
+
+        assert!(!br.exists());
+        assert!(br.compress("LICENSE").is_ok());
+        assert!(br.exists());
+        assert!(br.decompress(d).is_ok());
+        assert_eq!(
+            "LICENSE".read_silently().unwrap(),
+            (d.to_string() + "/archive").read_silently().unwrap()
+        );
+        assert!(br.remove().is_ok());
+    }
+
+    #[test]
+    fn remove_failure() {
+        assert!(Brotli::new("does_not_exist.br").remove().is_err());
+    }
+}
+
 mod tar {
     use aeruginous_io::PathBufLikeReader;
     use aeruginous_tbr::Tar;

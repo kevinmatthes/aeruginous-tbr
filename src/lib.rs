@@ -152,7 +152,7 @@ mod application;
 mod archive;
 
 pub use application::{Application, Mode as ApplicationMode};
-pub use archive::Tar;
+pub use archive::{Brotli, Tar};
 
 /// This crate's name.
 pub const NAME: &str = "aeruginous-tbr";

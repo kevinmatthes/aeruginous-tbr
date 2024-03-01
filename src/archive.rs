@@ -25,11 +25,102 @@ use std::{
 use sysexits::{ExitCode, Result};
 use tar::{Archive, Builder};
 
+/// The abstraction of a Brotli archive.
+///
+/// This abstraction can be used to interact with Brotli archives in the file
+/// system.  It supports transactions such as creation, updating, extraction,
+/// removal, and content information.
+pub struct Brotli {
+    path: PathBuf,
+}
+
+impl Brotli {
+    /// Compress the given file to create a Brotli archive in the file system.
+    ///
+    /// The compression will be done basically using the default settings (see
+    /// [`brotli::enc::BrotliEncoderParams::default`]) despite the following
+    /// customisations:
+    ///
+    /// - quality:  11 (best possible compression rate).
+    ///
+    /// # Errors
+    ///
+    /// See [`sysexits::ExitCode`].
+    pub fn compress<P>(&self, path: P) -> Result<()>
+    where
+        P: AsRef<Path>,
+    {
+        brotli::BrotliCompress(
+            &mut File::open(path)?,
+            &mut File::create(&self.path)?,
+            &brotli::enc::BrotliEncoderParams {
+                quality: 11,
+                ..Default::default()
+            },
+        )?;
+
+        Ok(())
+    }
+
+    /// Decompress this Brotli archive into the given directory.
+    ///
+    /// # Errors
+    ///
+    /// See [`sysexits::ExitCode`].
+    pub fn decompress<P>(&self, destination: P) -> Result<()>
+    where
+        P: AsRef<Path>,
+    {
+        let source = self
+            .path
+            .file_name()
+            .ok_or(ExitCode::DataErr)?
+            .to_str()
+            .ok_or(ExitCode::DataErr)?;
+        let target = destination
+            .as_ref()
+            .to_str()
+            .ok_or(ExitCode::DataErr)?
+            .to_string()
+            + "/"
+            + source.strip_suffix(".br").map_or(source, |s| s);
+
+        Ok(brotli::BrotliDecompress(
+            &mut File::open(&self.path)?,
+            &mut File::create(target)?,
+        )?)
+    }
+
+    /// Whether this Brotli archive already exists in the file system.
+    #[must_use]
+    pub fn exists(&self) -> bool {
+        self.path.exists()
+    }
+
+    /// Create a new instance.  This method **does not** create a new Brotli
+    /// archive in the file system.
+    pub fn new<P>(path: P) -> Self
+    where
+        PathBuf: From<P>,
+    {
+        Self { path: path.into() }
+    }
+
+    /// Remove this Brotli archive from the file system.
+    ///
+    /// # Errors
+    ///
+    /// See [`sysexits::ExitCode`].
+    pub fn remove(&self) -> Result<()> {
+        Ok(remove_file(&self.path)?)
+    }
+}
+
 /// The abstraction of a TAR archive.
 ///
 /// This abstraction can be used to interact with TAR archives in the file
 /// system.  It supports transactions such as creation, updating, extraction,
-/// and content information.
+/// removal, and content information.
 pub struct Tar {
     path: PathBuf,
 }
