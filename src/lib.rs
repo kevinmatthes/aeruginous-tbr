@@ -147,6 +147,7 @@
     unused_parens,
     unused_variables
 )]
+#![allow(clippy::multiple_crate_versions)]
 
 mod application;
 mod archive;
