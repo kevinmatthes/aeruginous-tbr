@@ -3,7 +3,7 @@ brotli = "6.0.0"
 clap = { version = "4.5.4", features = ["derive"] }
 glob = "0.3.1"
 sysexits = "0.8.0"
-tar = { version = "0.4.40", default-features = false }
+tar = { version = "0.4.41", default-features = false }
 tempfile = "3.10.1"
 
 [package]
@@ -22,7 +22,7 @@ rust-version = "1.78.0"
 version = "0.1.0"
 
 [dev-dependencies]
-aeruginous-io = "0.8.0"
+aeruginous-io = "0.8.1"
 
 [[bin]]
 name = "tbr"
