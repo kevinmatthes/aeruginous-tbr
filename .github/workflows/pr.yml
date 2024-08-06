@@ -101,7 +101,7 @@ jobs:
           cargo mutants
 
       - if: always()
-        uses: actions/upload-artifact@v4.3.5
+        uses: actions/upload-artifact@v4.3.6
         with:
           name: mutants.out
           path: mutants.out
