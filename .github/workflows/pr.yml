@@ -44,7 +44,7 @@ jobs:
       - mutants
     runs-on: ubuntu-latest
     steps:
-      - uses: taiki-e/install-action@v2.42.22
+      - uses: taiki-e/install-action@v2.42.23
         with:
           tool: cargo-llvm-cov
 
@@ -92,7 +92,7 @@ jobs:
           ref: ${{ github.head_ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
 
-      - uses: taiki-e/install-action@v2.42.22
+      - uses: taiki-e/install-action@v2.42.23
         with:
           tool: cargo-mutants
 
