@@ -71,7 +71,7 @@ jobs:
           branch: main
           repository: sourcefrog/cargo-mutants
 
-      - uses: peter-evans/create-pull-request@v7.0.0
+      - uses: peter-evans/create-pull-request@v7.0.1
         with:
           assignees: |
             kevinmatthes
