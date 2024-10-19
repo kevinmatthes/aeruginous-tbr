@@ -11,7 +11,7 @@
 [gpl3]:  https://github.com/kevinmatthes/aeruginous-tbr/blob/main/LICENSE
 [lcns]:  https://img.shields.io/github/license/kevinmatthes/aeruginous-tbr
 [lst]:  https://img.shields.io/github/last-commit/kevinmatthes/aeruginous-tbr
-[msrv]:  https://img.shields.io/badge/MSRV-1.81.0-brightgreen
+[msrv]:  https://img.shields.io/badge/MSRV-1.82.0-brightgreen
 [release]:  https://github.com/kevinmatthes/aeruginous-tbr/releases/latest
 [renovate]:  https://img.shields.io/badge/renovate-enabled-brightgreen.svg
 [repository]:  https://github.com/kevinmatthes/aeruginous-tbr
